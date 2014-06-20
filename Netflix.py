@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import sys
+
 # ---------------------------
 # Netflix.py
 # Copyright (C) 2014
@@ -81,9 +81,3 @@ def netflix_solve (r, w) :
         else:
             break
     netflix_RSME(w)
-    
-
-#netflix_solve (sys.stdin, sys.stdout)
-
-
-
