@@ -12,7 +12,7 @@ import sys
 # netflix_read
 # ------------
 
-def netflix_read_customers (r, movieID) :
+def netflix_read (r, movieID) :
     """
     netflix_read processes all customers under one movie 
     r is a reader
@@ -59,7 +59,7 @@ def netflix_print (w, movie_ID, customer_ratings) :
         w.write(str(i) + "\n")
 
 def netflix_RSME(w):
-    w.write("RSME: 1\n")
+    w.write("RMSE: 1\n")
 
 # -------------
 # netflix_solve
@@ -73,7 +73,7 @@ def netflix_solve (r, w) :
     """
     movie_ID = None
     while True:
-        customer_IDs, movie_ID, next_movie = netflix_read_customers(r, movie_ID) 
+        customer_IDs, movie_ID, next_movie = netflix_read(r, movie_ID) 
         customer_ratings = netflix_eval(movie_ID, customer_IDs) 
         netflix_print(w, movie_ID, customer_ratings)
         if next_movie:
@@ -83,7 +83,7 @@ def netflix_solve (r, w) :
     netflix_RSME(w)
     
 
-netflix_solve (sys.stdin, sys.stdout)
+#netflix_solve (sys.stdin, sys.stdout)
 
 
 

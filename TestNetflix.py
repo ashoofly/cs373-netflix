@@ -34,30 +34,40 @@ class TestNetflix (TestCase) :
     # ----
 
     def test_read_1 (self) :
-        r    = StringIO("1 10\n100 200\n201 210\n900 1000\n")
-        i, j = netflix_read(r)
-        self.assertEqual(i,  1)
-        self.assertEqual(j, 10)
+        r    = StringIO("12345:\n57483\n12210\n138849\n")
+        customers, movieID, nextMovie = netflix_read(r, None)
+        self.assertEqual(customers,  ['57483', '12210', '138849'])
+        self.assertEqual(movieID, '12345')
+        self.assertEqual(nextMovie, None)
+
+    def test_read_2 (self) :
+        r    = StringIO("12345:\n57483\n12210\n138849\n54321:\n47383\n73827\n")
+        customers, movieID, nextMovie = netflix_read(r, None)
+        self.assertEqual(customers,  ['57483', '12210', '138849'])
+        self.assertEqual(movieID, '12345')
+        self.assertEqual(nextMovie, '54321')
+
+    def test_read_3 (self) :
+        r    = StringIO("57483\n12210\n138849\n")
+        customers, movieID, nextMovie = netflix_read(r, '47382')
+        self.assertEqual(customers,  ['57483', '12210', '138849'])
+        self.assertEqual(movieID, '47382')
+        self.assertEqual(nextMovie, None)
+
+    def test_read_4 (self) :
+        r    = StringIO("57483\n12210\n138849\n58398:\n")
+        customers, movieID, nextMovie = netflix_read(r, '47382')
+        self.assertEqual(customers,  ['57483', '12210', '138849'])
+        self.assertEqual(movieID, '47382')
+        self.assertEqual(nextMovie, '58398')
 
     # ----
     # eval
     # ----
 
     def test_eval_1 (self) :
-        v = netflix_eval(1, 10)
-        self.assertEqual(v, 20)
-
-    def test_eval_2 (self) :
-        v = netflix_eval(100, 200)
-        self.assertEqual(v, 125)
-
-    def test_eval_3 (self) :
-        v = netflix_eval(201, 210)
-        self.assertEqual(v, 89)
-
-    def test_eval_4 (self) :
-        v = netflix_eval(900, 1000)
-        self.assertEqual(v, 174)
+        v = netflix_eval('12345', ['62728', '78193', '28119', '28171'])
+        self.assertEqual(v, [1.0]*4)
 
     # -----
     # print
@@ -65,18 +75,36 @@ class TestNetflix (TestCase) :
 
     def test_print_1 (self) :
         w = StringIO()
-        netflix_print(w, 1, 10, 20)
-        self.assertEqual(w.getvalue(), "1 10 20\n")
+        netflix_print(w, '12345', [1.0, 1.0])
+        self.assertEqual(w.getvalue(), "12345:\n1.0\n1.0\n")
+
+    def test_print_2 (self) :
+        w = StringIO()
+        netflix_print(w, '12345', [1.0])
+        self.assertEqual(w.getvalue(), "12345:\n1.0\n")
+
+    def test_print_3 (self) :
+        w = StringIO()
+        netflix_print(w, '12345', [1.0, 1.0, 1.0])
+        self.assertEqual(w.getvalue(), "12345:\n1.0\n1.0\n1.0\n")
+
+
 
     # -----
     # solve
     # -----
 
     def test_solve_1 (self) :
-        r = StringIO("1 10\n100 200\n201 210\n900 1000\n")
+        r = StringIO("12345:\n57483\n12210\n138849\n")
         w = StringIO()
         netflix_solve(r, w)
-        self.assertEqual(w.getvalue(), "1 10 20\n100 200 125\n201 210 89\n900 1000 174\n")
+        self.assertEqual(w.getvalue(), "12345:\n1.0\n1.0\n1.0\nRMSE: 1\n")
+
+    def test_solve_2 (self) :
+        r = StringIO("12354:\n57483\n12210\n54321:\n47583\n74837\n")
+        w = StringIO()
+        netflix_solve(r, w)
+        self.assertEqual(w.getvalue(), "12354:\n1.0\n1.0\n54321:\n1.0\n1.0\nRMSE: 1\n")
 
 # ----
 # main
