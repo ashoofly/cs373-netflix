@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+import sys
 # ---------------------------
 # Netflix.py
 # Copyright (C) 2014
@@ -8,26 +8,29 @@
 # ---------------------------
 
 
-
 # ------------
 # netflix_read
 # ------------
 
-def netflix_read (r) :
+def netflix_read_customers (r, movieID) :
     """
-    read 
+    netflix_read processes all customers under one movie 
     r is a reader
     return movieID, otherwise a list of zeros
     """
-    while True :
-        s = r.readline()
-        if s == "" :
-            return None
-        elif ":" in movieID :
-            
+    if not movieID:
+        movieID = r.readline()[:-2]
+    customers = []
+    line = r.readline()
+    while ':' not in line:
+        # customer ID
+        customers.append(line.rstrip())
+        line = r.readline()
+        if line == "":
+            return customers, movieID, None
+    next_movie = line[:-2]
+    return customers, movieID, next_movie
 
-    a = s.split()
-    return [int(v) for v in a]
 
 # ------------
 # netflix_eval
@@ -39,22 +42,24 @@ def netflix_eval (movieID, customerIDs) :
     customerIDs is the list of customer ids
     return list of customer ratings
     """
-    # <your code>
-    return 1
+    return [1.0] * len(customerIDs)
 
 # -------------
 # netflix_print
 # -------------
 
-def netflix_print (w, i, j, v) :
+def netflix_print (w, movie_ID, customer_ratings) :
     """
-    print three ints
+    print movie ID with colon
+    print customer ratings, one on each line
     w is a writer
-    i is the beginning of the range, inclusive
-    j is the end       of the range, inclusive
-    v is the max cycle length
     """
-    w.write(str(i) + " " + str(j) + " " + str(v) + "\n")
+    w.write(movie_ID + ":\n")
+    for i in customer_ratings:
+        w.write(str(i) + "\n")
+
+def netflix_RSME(w):
+    w.write("RSME: 1\n")
 
 # -------------
 # netflix_solve
@@ -66,16 +71,19 @@ def netflix_solve (r, w) :
     r is a reader
     w is a writer
     """
-    try:
-        while True :
-            movieID, customerIDs = netflix_read(r) # Sends back tuple(movieID, customerIDs)
-            customerRatings = netflix_eval(movieID, customerIDs) # Sends back tuple(movieID, ratings)
-            netflix_print(w, movieID, customerRatings)
-    except EOF:        
-        #print RMSE
+    movie_ID = None
+    while True:
+        customer_IDs, movie_ID, next_movie = netflix_read_customers(r, movie_ID) 
+        customer_ratings = netflix_eval(movie_ID, customer_IDs) 
+        netflix_print(w, movie_ID, customer_ratings)
+        if next_movie:
+            movie_ID = next_movie
+        else:
+            break
+    netflix_RSME(w)
+    
 
-
-
+netflix_solve (sys.stdin, sys.stdout)
 
 
 
