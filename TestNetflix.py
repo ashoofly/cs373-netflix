@@ -20,15 +20,25 @@ To obtain coverage of the test:
 # -------
 
 from io       import StringIO
-from unittest import main, TestCase
+from unittest import main, TestCase, mock
 
-from Netflix import netflix_read, netflix_eval, netflix_print, netflix_solve
+from Netflix import netflix_read, netflix_eval, netflix_print, netflix_solve, MOVIE_AVGS, CUSTOMER_AVGS
 
 # -----------
 # TestNetflix
 # -----------
 
 class TestNetflix (TestCase) :
+
+    def test_netflix_load_caches (self):
+        r = StringIO("12345:\n57483\n12210\n138849\n")
+        w = StringIO()
+        netflix_solve(r, w)
+        self.assertEqual(w.getvalue(), "12345:\n1.0\n1.0\n1.0\nRMSE: 1\n")
+        r = StringIO("11:\n25\n83\n97\n")
+        w = StringIO()
+        netflix_load_caches('test-movie_cache.json', 'test-customer_cache.json')
+
     # ----
     # read
     # ----
