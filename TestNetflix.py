@@ -30,7 +30,11 @@ from Netflix import netflix_read, netflix_eval, netflix_print, netflix_solve, MO
 
 class TestNetflix (TestCase) :
 
-    def test_netflix_load_caches (self):
+    # ------
+    # caches
+    # ------
+
+    def test_caches_1 (self):
         r = StringIO("12345:\n57483\n12210\n138849\n")
         w = StringIO()
         netflix_solve(r, w)

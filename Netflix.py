@@ -1,6 +1,4 @@
 #!/usr/bin/env python3
-import os
-import json
 
 # ---------------------------
 # Netflix.py
@@ -9,19 +7,39 @@ import json
 # Angela Hsu
 # ---------------------------
 
+# -------
+# imports
+# -------
+
+import os
+import json
+
+# -------
+# globals
+# -------
+
 CACHE_PATH = '../netflix-tests'
 MOVIE_AVGS = os.path.join(CACHE_PATH, 'rbrooks-movie_average_rating.json')
 CUSTOMER_AVGS = os.path.join(CACHE_PATH, 'bryan-customer_cache.json')
+ANSWER_CACHE = os.path.join(CACHE_PATH, 'AnswerCache.json')
 avg_movie_ratings = {}
 avg_ratings_per_customer = {}
+answer_cache = {}
 
-def test_netflix_load_caches (self):
-    with open(cache1, 'r') as f:
+# --------------
+# netflix_caches
+# --------------
+
+def netflix_caches (self) :
+    # Load Average Rating Per Movie Cache
+    with open(MOVIE_AVGS, 'r') as f:
         avg_movie_ratings = json.load(f)
-    with open(cache2, 'r') as f:
+    # Load Average Rating Given Per Customer Cache
+    with open(CUSTOMER_AVGS, 'r') as f:
         avg_ratings_per_customer = json.load(f)
-
-
+    # Load Answer Cache
+    with open(ANSWER_CACHE, 'r') as f:
+        answer_cache = json.load(f)
 
 # ------------
 # netflix_read
@@ -91,7 +109,7 @@ def netflix_solve (r, w) :
     r is a reader
     w is a writer
     """
-    netflix_load_caches(MOVIE_AVGS, CUSTOMER_AVGS)
+    netflix_caches()
     movie_ID = None
     while True:
         customer_IDs, movie_ID, next_movie = netflix_read(r, movie_ID) 
