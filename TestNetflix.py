@@ -29,8 +29,12 @@ from Netflix import *
 # -----------
 
 class TestNetflix (TestCase) :
-    def setUp(self) :
+
+    @classmethod
+    def setUpClass(self) :
         netflix_caches()
+
+
     """
     # ------
     # caches
@@ -111,6 +115,19 @@ class TestNetflix (TestCase) :
     def test_custMovieAvg_2 (self) :
         customerAvg = netflix_getCustAvg("5399")
         self.assertEqual(customerAvg, 3.81)
+
+    # -----------
+    # algorithm_1
+    # -----------
+
+    def test_algorithm_1_a (self):
+        predicted = algorithm_1('107', ['1611', '5399'])
+        self.assertEqual(predicted, [3.5461158021712906, 3.5811158021712908])    
+
+    def test_algorithm_1_b (self):
+        predicted = algorithm_1('8776', ['1611', '5399'])
+        self.assertEqual(predicted, [3.3019526627218934, 3.3369526627218935]) 
+   
 
     """
     # -----

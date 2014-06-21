@@ -24,12 +24,13 @@ To document the program
 
 import sys
 
-from Netflix import netflix_solve
+from Netflix import netflix_solve, netflix_caches
 
 # ----
 # main
 # ----
 
+netflix_caches()
 netflix_solve(sys.stdin, sys.stdout)
 
 """

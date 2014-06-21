@@ -81,6 +81,17 @@ def netflix_getMovieAvg (movieID) :
 def netflix_getCustAvg (customerID) :
     return avg_customer_ratings[customerID]
 
+# ------------------
+# netflix_getCustAvg
+# ------------------
+
+def algorithm_1 (movieID, customerIDs) :
+    predict_list = []
+    movieAvg = netflix_getMovieAvg (movieID)
+    for i in customerIDs:
+        predict_list.append((netflix_getCustAvg(i) + movieAvg)/2)
+    return predict_list
+
 # ------------
 # netflix_eval
 # ------------
@@ -98,8 +109,9 @@ def netflix_eval (movieID, customerIDs) :
     customer_avgs = [avg_ratings_per_customer[i] for i in customerIDs]
     print(customer_avgs)
     """
+    predict_1 = algorithm_1 (movieID, customerIDs)
 
-    return [1.0]
+    return predict_1
 
 # -------------
 # netflix_print
@@ -139,4 +151,3 @@ def netflix_solve (r, w) :
             break
     netflix_RSME(w)
 
-netflix_caches()
