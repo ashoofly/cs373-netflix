@@ -23,22 +23,25 @@ MOVIE_AVGS = os.path.join(CACHE_PATH, 'rbrooks-movie_average_rating.json')
 CUSTOMER_AVGS = os.path.join(CACHE_PATH, 'bryan-customer_cache.json')
 ANSWER_CACHE = os.path.join(CACHE_PATH, 'AnswerCache.json')
 avg_movie_ratings = {}
-avg_ratings_per_customer = {}
+avg_customer_ratings = {}
 answer_cache = {}
 
 # --------------
 # netflix_caches
 # --------------
 
-def netflix_caches (self) :
+def netflix_caches () :
     # Load Average Rating Per Movie Cache
     with open(MOVIE_AVGS, 'r') as f:
+        global avg_movie_ratings
         avg_movie_ratings = json.load(f)
     # Load Average Rating Given Per Customer Cache
     with open(CUSTOMER_AVGS, 'r') as f:
-        avg_ratings_per_customer = json.load(f)
+        global avg_customer_ratings
+        avg_customer_ratings = json.load(f)
     # Load Answer Cache
     with open(ANSWER_CACHE, 'r') as f:
+        global answer_cache
         answer_cache = json.load(f)
 
 # ------------
@@ -64,6 +67,19 @@ def netflix_read (r, movieID) :
     next_movie = line[:-2]
     return customers, movieID, next_movie
 
+# -------------------
+# netflix_getMovieAvg
+# -------------------
+
+def netflix_getMovieAvg (movieID) :
+    return avg_movie_ratings[movieID]
+
+# ------------------
+# netflix_getCustAvg
+# ------------------
+
+def netflix_getCustAvg (customerID) :
+    return avg_customer_ratings[customerID]
 
 # ------------
 # netflix_eval
@@ -75,12 +91,15 @@ def netflix_eval (movieID, customerIDs) :
     customerIDs is the list of customer ids
     return list of customer ratings
     """
+    """
     movie_avg = avg_movie_ratings[movieID]
     print(movie_avg)
     
     customer_avgs = [avg_ratings_per_customer[i] for i in customerIDs]
     print(customer_avgs)
-    return [1.0] * len(customerIDs)
+    """
+
+    return [1.0]
 
 # -------------
 # netflix_print
@@ -109,7 +128,6 @@ def netflix_solve (r, w) :
     r is a reader
     w is a writer
     """
-    netflix_caches()
     movie_ID = None
     while True:
         customer_IDs, movie_ID, next_movie = netflix_read(r, movie_ID) 
@@ -120,3 +138,5 @@ def netflix_solve (r, w) :
         else:
             break
     netflix_RSME(w)
+
+netflix_caches()

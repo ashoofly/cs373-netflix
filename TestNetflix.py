@@ -20,16 +20,18 @@ To obtain coverage of the test:
 # -------
 
 from io       import StringIO
-from unittest import main, TestCase, mock
+from unittest import main, TestCase
 
-from Netflix import netflix_read, netflix_eval, netflix_print, netflix_solve, MOVIE_AVGS, CUSTOMER_AVGS
+from Netflix import *
 
 # -----------
 # TestNetflix
 # -----------
 
 class TestNetflix (TestCase) :
-
+    def setUp(self) :
+        netflix_caches()
+    """
     # ------
     # caches
     # ------
@@ -80,9 +82,37 @@ class TestNetflix (TestCase) :
     # ----
 
     def test_eval_1 (self) :
-        v = netflix_eval('12345', ['62728', '78193', '28119', '28171'])
-        self.assertEqual(v, [1.0]*4)
+        netflix_caches()
+        v = netflix_eval('12582', ['341963', '874390', '1842453', '441381'])
+        self.assertEqual(v, [3, 4, 4, 4])
 
+    """
+
+    # -----------
+    # getMovieAvg
+    # -----------
+
+    def test_getMovieAvg_1 (self) :
+        movieAvg = netflix_getMovieAvg("107")
+        self.assertEqual(movieAvg, 3.3522316043425815)
+
+    def test_getMovieAvg_2 (self) :
+        movieAvg = netflix_getMovieAvg("8776")
+        self.assertEqual(movieAvg, 2.863905325443787)
+
+    # ----------
+    # getCustAvg
+    # ----------
+
+    def test_custMovieAvg_1 (self) :
+        customerAvg = netflix_getCustAvg("1611")
+        self.assertEqual(customerAvg, 3.74)
+
+    def test_custMovieAvg_2 (self) :
+        customerAvg = netflix_getCustAvg("5399")
+        self.assertEqual(customerAvg, 3.81)
+
+    """
     # -----
     # print
     # -----
@@ -103,7 +133,6 @@ class TestNetflix (TestCase) :
         self.assertEqual(w.getvalue(), "12345:\n1.0\n1.0\n1.0\n")
 
 
-
     # -----
     # solve
     # -----
@@ -119,83 +148,9 @@ class TestNetflix (TestCase) :
         w = StringIO()
         netflix_solve(r, w)
         self.assertEqual(w.getvalue(), "12354:\n1.0\n1.0\n54321:\n1.0\n1.0\nRMSE: 1\n")
-
+    """
 # ----
 # main
 # ----
 
 main()
-
-"""
-% coverage3 run --branch TestNetflix.py
-FFFF..F
-======================================================================
-FAIL: test_eval_1 (__main__.TestNetflix)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "TestNetflix.py", line 47, in test_eval_1
-    self.assertEqual(v, 20)
-AssertionError: 1 != 20
-
-======================================================================
-FAIL: test_eval_2 (__main__.TestNetflix)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "TestNetflix.py", line 51, in test_eval_2
-    self.assertEqual(v, 125)
-AssertionError: 1 != 125
-
-======================================================================
-FAIL: test_eval_3 (__main__.TestNetflix)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "TestNetflix.py", line 55, in test_eval_3
-    self.assertEqual(v, 89)
-AssertionError: 1 != 89
-
-======================================================================
-FAIL: test_eval_4 (__main__.TestNetflix)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "TestNetflix.py", line 59, in test_eval_4
-    self.assertEqual(v, 174)
-AssertionError: 1 != 174
-
-======================================================================
-FAIL: test_solve (__main__.TestNetflix)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "TestNetflix.py", line 78, in test_solve
-    self.assertEqual(w.getvalue(), "1 10 20\n100 200 125\n201 210 89\n900 1000 174\n")
-AssertionError: '1 10 1\n100 200 1\n201 210 1\n900 1000 1\n' != '1 10 20\n100 200 125\n201 210 89\n900 1000 174\n'
-- 1 10 1
-?      ^
-+ 1 10 20
-?      ^^
-- 100 200 1
-+ 100 200 125
-?          ++
-- 201 210 1
-?         ^
-+ 201 210 89
-?         ^^
-- 900 1000 1
-+ 900 1000 174
-?           ++
-
-
-----------------------------------------------------------------------
-Ran 7 tests in 0.004s
-
-FAILED (failures=5)
-
-
-
-% coverage3 report -m
-Name           Stmts   Miss Branch BrMiss  Cover   Missing
-----------------------------------------------------------
-Netflix          18      0      6      0   100%
-TestNetflix      33      1      0      0    97%   86
-----------------------------------------------------------
-TOTAL            51      1      6      0    98%
-"""

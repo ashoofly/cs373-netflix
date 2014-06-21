@@ -16,7 +16,7 @@ def getRatings (movieID, customerIDs) :
 	for line in f :
 		custID, rating, date = line.split(",")
 		if custID in customerIDs :
-			AnswerCache[str(movieID) + "-" + str(custID)] = rating
+			AnswerCache[str(movieID) + "-" + str(custID)] = int(rating)
 	f.close()
 
 	
