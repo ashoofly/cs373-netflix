@@ -25,6 +25,8 @@ ANSWER_CACHE = os.path.join(CACHE_PATH, 'AnswerCache.json')
 avg_movie_ratings = {}
 avg_customer_ratings = {}
 answer_cache = {}
+sds = 0.0
+counter = 0
 
 # --------------
 # netflix_caches
@@ -81,16 +83,32 @@ def netflix_getMovieAvg (movieID) :
 def netflix_getCustAvg (customerID) :
     return avg_customer_ratings[customerID]
 
+# --------------------
+# netflix_getTrueRating
+# ---------------------
+
+def netflix_getTrueRating (movieID, customerIDs) :
+    return [answer_cache[movieID + "-" + i] for i in customerIDs]
+    
 # ------------------
 # netflix_getCustAvg
 # ------------------
 
-def algorithm_1 (movieID, customerIDs) :
+def netflix_algorithm_1 (movieID, customerIDs) :
     predict_list = []
     movieAvg = netflix_getMovieAvg (movieID)
     for i in customerIDs:
         predict_list.append((netflix_getCustAvg(i) + movieAvg)/2)
     return predict_list
+
+# ------------------
+# netflix_update_sds
+# ------------------
+
+def netflix_update_sds (predict, actual) :
+    global sds, counter
+    sds += sum(map(lambda x,y: (x-y)**2, predict, actual))
+    counter += len(actual)
 
 # ------------
 # netflix_eval
@@ -101,16 +119,11 @@ def netflix_eval (movieID, customerIDs) :
     movieID is the movie id
     customerIDs is the list of customer ids
     return list of customer ratings
-    """
-    """
-    movie_avg = avg_movie_ratings[movieID]
-    print(movie_avg)
-    
-    customer_avgs = [avg_ratings_per_customer[i] for i in customerIDs]
-    print(customer_avgs)
-    """
-    predict_1 = algorithm_1 (movieID, customerIDs)
 
+    """
+    predict_1 = algorithm_1(movieID, customerIDs)
+    actual = netflix_getTrueRating(movieID, customerIDs)
+    netflix_update_sds(predict_1, actual)
     return predict_1
 
 # -------------
@@ -127,8 +140,12 @@ def netflix_print (w, movie_ID, customer_ratings) :
     for i in customer_ratings:
         w.write(str(i) + "\n")
 
-def netflix_RSME(w):
-    w.write("RMSE: 1\n")
+# ------------------
+# netflix_print_RMSE
+# ------------------
+
+def netflix_print_RMSE(w):
+    w.write("RMSE: " + str(math.sqrt(sds / counter)) + "\n")
 
 # -------------
 # netflix_solve
@@ -149,5 +166,5 @@ def netflix_solve (r, w) :
             movie_ID = next_movie
         else:
             break
-    netflix_RSME(w)
+    print_RMSE(w)
 
