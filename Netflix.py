@@ -13,17 +13,18 @@
 
 import os
 import json
+import math
 
 # -------
 # globals
 # -------
 
 CACHE_PATH = '../netflix-tests'
-MOVIE_AVGS = os.path.join(CACHE_PATH, 'rbrooks-movie_average_rating.json')
-CUSTOMER_AVGS = os.path.join(CACHE_PATH, 'bryan-customer_cache.json')
+MOVIE_STATS = os.path.join(CACHE_PATH, 'osl62-MovieCache.json')
+CUSTOMER_STATS = os.path.join(CACHE_PATH, 'osl62-CustomerCache.json')
 ANSWER_CACHE = os.path.join(CACHE_PATH, 'osl62-AnswerCache.json')
-avg_movie_ratings = {}
-avg_customer_ratings = {}
+movie_stats_cache = {}
+customer_stats_cache = {}
 answer_cache = {}
 sds = 0.0
 counter = 0
@@ -34,13 +35,13 @@ counter = 0
 
 def netflix_caches () :
     # Load Average Rating Per Movie Cache
-    with open(MOVIE_AVGS, 'r') as f:
-        global avg_movie_ratings
-        avg_movie_ratings = json.load(f)
+    with open(MOVIE_STATS, 'r') as f:
+        global movie_stats_cache
+        movie_stats_cache = json.load(f)
     # Load Average Rating Given Per Customer Cache
-    with open(CUSTOMER_AVGS, 'r') as f:
-        global avg_customer_ratings
-        avg_customer_ratings = json.load(f)
+    with open(CUSTOMER_STATS, 'r') as f:
+        global customer_stats_cache
+        customer_stats_cache = json.load(f)
     # Load Answer Cache
     with open(ANSWER_CACHE, 'r') as f:
         global answer_cache
@@ -73,15 +74,15 @@ def netflix_read (r, movieID) :
 # netflix_getMovieAvg
 # -------------------
 
-def netflix_getMovieAvg (movieID) :
-    return avg_movie_ratings[movieID]
+def netflix_getMovieStats (movieID) :
+    return movie_stats_cache[movieID]
 
 # ------------------
 # netflix_getCustAvg
 # ------------------
 
-def netflix_getCustAvg (customerID) :
-    return avg_customer_ratings[customerID]
+def netflix_getCustStats (customerID) :
+    return customer_stats_cache[customerID]
 
 # --------------------
 # netflix_getTrueRating
@@ -95,11 +96,8 @@ def netflix_getTrueRating (movieID, customerIDs) :
 # ------------------
 
 def netflix_algorithm_1 (movieID, customerIDs) :
-    predict_list = []
-    movieAvg = netflix_getMovieAvg (movieID)
-    for i in customerIDs:
-        predict_list.append((netflix_getCustAvg(i) + movieAvg)/2)
-    return predict_list
+    movie_mean, movie_median, movie_std = netflix_getMovieStats(movieID)
+    return [((netflix_getCustStats(i)[0] + movie_mean)/2) for i in customerIDs]
 
 # ------------------
 # netflix_update_sds
@@ -138,14 +136,14 @@ def netflix_print (w, movie_ID, customer_ratings) :
     """
     w.write(movie_ID + ":\n")
     for i in customer_ratings:
-        w.write(str(i) + "\n")
+        w.write(str(format(i, '.1f')) + "\n")
 
 # ------------------
 # netflix_print_RMSE
 # ------------------
 
 def netflix_print_RMSE(w):
-    w.write("RMSE: " + str(math.sqrt(sds / counter)) + "\n")
+    w.write("RMSE: " + str( format( math.sqrt(sds / counter), '.2f' ) + "\n") )
 
 # -------------
 # netflix_solve
@@ -166,5 +164,5 @@ def netflix_solve (r, w) :
             movie_ID = next_movie
         else:
             break
-    print_RMSE(w)
+    netflix_print_RMSE(w)
 

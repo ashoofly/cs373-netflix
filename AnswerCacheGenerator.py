@@ -9,19 +9,24 @@
 
 import json
 
+AnswerCache = {}
+
 def getRatings (movieID, customerIDs) :
+	global AnswerCache
+	localCache = {}
+	size = len(AnswerCache)
 	f = open("/u/downing/cs/netflix/training_set/mv_" + str(movieID).zfill(7) + ".txt")
 	f.readline()
 	rating = -1
 	for line in f :
 		custID, rating, date = line.split(",")
-		if custID in customerIDs :
-			AnswerCache[str(movieID) + "-" + str(custID)] = int(rating)
+		localCache[custID] = int(rating)
+	for x in customerIDs :
+		AnswerCache[movieID + "-" + x] = localCache[x] 
+	assert(len(AnswerCache) - size == len(customerIDs))
 	f.close()
 
-	
 
-AnswerCache = {}
 probe = open("/u/downing/cs/netflix/probe.txt")
 movieID = None
 customerIDs = None
@@ -35,6 +40,8 @@ for line in probe :
 		continue
 	customerIDs.append(line.rstrip())
 probe.close()
+
+getRatings('9999', ['1473765'])
 
 
 with open('AnswerCache.json', 'w') as fp:
