@@ -36,20 +36,18 @@ class TestNetflix (TestCase) :
     def setUpClass(self) :
         Netflix.netflix_caches()
 
-
-    """
     # ------
     # caches
     # ------
 
-    def test_caches_1 (self):
-        r = StringIO("12345:\n57483\n12210\n138849\n")
-        w = StringIO()
-        Netflix.netflix_solve(r, w)
-        self.assertEqual(w.getvalue(), "12345:\n1.0\n1.0\n1.0\nRMSE: 1\n")
-        r = StringIO("11:\n25\n83\n97\n")
-        w = StringIO()
-        Netflix.netflix_load_caches('test-movie_cache.json', 'test-customer_cache.json')
+    def test_cache_1 (self) :
+        self.assertEqual(Netflix.answer_cache["12582-341963"], 3)
+
+    def test_cache_2 (self) :
+        self.assertEqual(Netflix.answer_cache["5318-2009093"], 1)
+
+    def test_cache_3 (self) :
+        self.assertEqual(Netflix.answer_cache["406-1989674"], 2)
 
     # ----
     # read
@@ -88,11 +86,16 @@ class TestNetflix (TestCase) :
     # ----
 
     def test_eval_1 (self) :
-        Netflix.netflix_caches()
-        v = Netflix.netflix_eval('12582', ['341963', '874390', '1842453', '441381'])
-        self.assertEqual(v, [3, 4, 4, 4])
+        v = Netflix.netflix_eval('2043', ['1417435', '2312054', '462685'])
+        self.assertEqual(v, [3.643832422817939, 4.118832422817939, 3.783832422817939])
 
-    """
+    def test_eval_2 (self) :
+        v = Netflix.netflix_eval('12582', ['341963', '874390', '1842453', '441381'])
+        self.assertEqual(v, [3.7558751270166058, 3.705875127016606, 3.615875127016606, 3.595875127016606])
+
+    def test_eval_3 (self) :
+        v = Netflix.netflix_eval('10851', ['2221448', '1703866', '2118663'])
+        self.assertEqual(v, [4.0672040302267005, 3.6772040302267, 3.9522040302267003])
 
     # -----------
     # getMovieAvg
@@ -106,6 +109,10 @@ class TestNetflix (TestCase) :
         movieAvg = Netflix.netflix_getMovieAvg("8776")
         self.assertEqual(movieAvg, 2.863905325443787)
 
+    def test_getMovieAvg_3 (self) :
+        movieAvg = Netflix.netflix_getMovieAvg("17770")
+        self.assertEqual(movieAvg, 2.816503800217155)
+
     # ----------
     # getCustAvg
     # ----------
@@ -117,6 +124,10 @@ class TestNetflix (TestCase) :
     def test_custMovieAvg_2 (self) :
         customerAvg = Netflix.netflix_getCustAvg("5399")
         self.assertEqual(customerAvg, 3.81)
+
+    def test_custMovieAvg_3 (self) :
+        customerAvg = Netflix.netflix_getCustAvg("126")
+        self.assertEqual(customerAvg, 4.67)
 
 
     # -------------
@@ -160,20 +171,37 @@ class TestNetflix (TestCase) :
         Netflix.sds = 0.0
         Netflix.counter = 0
 
+    def test_netflix_update_sds_2 (self) :
+        Netflix.sds = 0.0
+        Netflix.counter = 0
+        Netflix.netflix_update_sds([1, 2, 3], [3, 1, 4])
+        self.assertEqual(Netflix.sds, 6)
+        self.assertEqual(Netflix.counter, 3)
+        Netflix.netflix_update_sds([5, 3, 4], [2, 1, 3])
+        self.assertEqual(Netflix.sds, 20)
+        self.assertEqual(Netflix.counter, 6)
+        Netflix.netflix_update_sds([3, 2, 1], [4, 5, 4])
+        self.assertEqual(Netflix.sds, 39)
+        self.assertEqual(Netflix.counter, 9)
+        Netflix.sds = 0.0
+        Netflix.counter = 0
+
     # -----------
     # algorithm_1
     # -----------
 
     def test_algorithm_1_a (self):
         predicted = Netflix.netflix_algorithm_1('107', ['1611', '5399'])
-        self.assertEqual(predicted, [3.5461158021712906, 3.5811158021712908])    
+        self.assertEqual(predicted, [3.5461158021712906, 3.5811158021712908])
 
     def test_algorithm_1_b (self):
         predicted = Netflix.netflix_algorithm_1('8776', ['1611', '5399'])
-        self.assertEqual(predicted, [3.3019526627218934, 3.3369526627218935]) 
-   
+        self.assertEqual(predicted, [3.3019526627218934, 3.3369526627218935])
 
-    """
+    def test_algorithm_1_c (self):
+        predicted = Netflix.netflix_algorithm_1('17770', ['126'])
+        self.assertEqual(predicted, [3.743251900108578])
+
     # -----
     # print
     # -----
@@ -193,7 +221,6 @@ class TestNetflix (TestCase) :
         Netflix.netflix_print(w, '12345', [1.0, 1.0, 1.0])
         self.assertEqual(w.getvalue(), "12345:\n1.0\n1.0\n1.0\n")
 
-
     # -----
     # solve
     # -----
@@ -209,7 +236,7 @@ class TestNetflix (TestCase) :
         w = StringIO()
         Netflix.netflix_solve(r, w)
         self.assertEqual(w.getvalue(), "12354:\n1.0\n1.0\n54321:\n1.0\n1.0\nRMSE: 1\n")
-    """
+
 # ----
 # main
 # ----

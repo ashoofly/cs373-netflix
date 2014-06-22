@@ -21,7 +21,7 @@ import json
 CACHE_PATH = '../netflix-tests'
 MOVIE_AVGS = os.path.join(CACHE_PATH, 'rbrooks-movie_average_rating.json')
 CUSTOMER_AVGS = os.path.join(CACHE_PATH, 'bryan-customer_cache.json')
-ANSWER_CACHE = os.path.join(CACHE_PATH, 'AnswerCache.json')
+ANSWER_CACHE = os.path.join(CACHE_PATH, 'osl62-AnswerCache.json')
 avg_movie_ratings = {}
 avg_customer_ratings = {}
 answer_cache = {}
@@ -121,7 +121,7 @@ def netflix_eval (movieID, customerIDs) :
     return list of customer ratings
 
     """
-    predict_1 = algorithm_1(movieID, customerIDs)
+    predict_1 = netflix_algorithm_1(movieID, customerIDs)
     actual = netflix_getTrueRating(movieID, customerIDs)
     netflix_update_sds(predict_1, actual)
     return predict_1
