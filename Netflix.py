@@ -91,13 +91,42 @@ def netflix_getCustStats (customerID) :
 def netflix_getTrueRating (movieID, customerIDs) :
     return [answer_cache[movieID + "-" + i] for i in customerIDs]
     
-# ------------------
-# netflix_getCustAvg
-# ------------------
+# -------------------
+# netflix_algorithm_1
+# -------------------
 
 def netflix_algorithm_1 (movieID, customerIDs) :
-    movie_mean, movie_median, movie_std = netflix_getMovieStats(movieID)
+    movie_mean, movie_median, movie_std_avg, movie_std_med  = netflix_getMovieStats(movieID)
     return [((netflix_getCustStats(i)[0] + movie_mean)/2) for i in customerIDs]
+
+# -------------------
+# netflix_algorithm_2
+# -------------------
+
+def netflix_algorithm_2 (movieID, customerIDs) :
+    movie_mean, movie_median, movie_std_avg, movie_std_med  = netflix_getMovieStats(movieID)
+    return [((netflix_getCustStats(i)[1] + movie_median)/2) for i in customerIDs]
+
+
+# -------------------
+# netflix_algorithm_3
+# -------------------
+
+def netflix_algorithm_3 (predict_1, predict_2) :
+    '''Returns predicted rating from avg & median'''
+ #   our_predict = [map(lambda x, y: (x+y)/2, predict_1, predict_2)]
+    return [(predict_1[i] + predict_2[i])/2 for i in range(0, len(predict_1))] 
+
+
+# -------------------
+# netflix_algorithm_4
+# -------------------
+
+def netflix_algorithm_4 (movieID, customerIDs) :
+    movie_mean, movie_median, movie_std_avg, movie_std_med  = netflix_getMovieStats(movieID)
+    for i in customerIDs:
+        cust_mean, cust_median, cust_std_avg, cust_std_med = netflix_getCustStats(i)
+
 
 # ------------------
 # netflix_update_sds
@@ -120,6 +149,8 @@ def netflix_eval (movieID, customerIDs) :
 
     """
     predict_1 = netflix_algorithm_1(movieID, customerIDs)
+    predict_2 = netflix_algorithm_2(movieID, customerIDs)
+    predict_3 = netflix_algorithm_3(predict_1, predict_2)
     actual = netflix_getTrueRating(movieID, customerIDs)
     netflix_update_sds(predict_1, actual)
     return predict_1
@@ -143,7 +174,7 @@ def netflix_print (w, movie_ID, customer_ratings) :
 # ------------------
 
 def netflix_print_RMSE(w):
-    w.write("RMSE: " + str( format( math.sqrt(sds / counter), '.2f' ) + "\n") )
+    w.write("RMSE: " + str( format( math.sqrt(sds / counter), '.4f' ) + "\n") )
 
 # -------------
 # netflix_solve
