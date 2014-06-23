@@ -24,12 +24,14 @@ for movieID in range(1, 17771) :
 		else :
 			Customers[custID] = [int(rating)]
 	mu = statistics.mean(Ratings)
-	MovieCache[str(movieID)] = (mu, statistics.median_grouped(Ratings), statistics.pstdev(Ratings,mu))
+	med = statistics.median_grouped(Ratings)
+	MovieCache[str(movieID)] = (mu, med, statistics.pstdev(Ratings,mu), statistics.pstdev(Ratings,med))
 	print(movieID)
 	f.close()
 for customer in Customers:
 	mu = statistics.mean(Customers[customer])
-	CustomerCache[customer] = (mu, statistics.median_grouped(Customers[customer]), statistics.pstdev(Customers[customer],mu))
+	med = statistics.median_grouped(Customers[customer])
+	CustomerCache[customer] = (mu, med, statistics.pstdev(Customers[customer],mu), statistics.pstdev(Customers[customer], med))
 
 with open('MovieCache.json', 'w') as fp:
     json.dump(MovieCache, fp)
