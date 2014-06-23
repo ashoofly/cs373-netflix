@@ -96,22 +96,22 @@ def netflix_getTrueRating (movieID, customerIDs) :
 # -------------------
 
 def netflix_algorithm_1 (movieID, customerIDs) :
-	"""
-	returns simple averages
-	"""
-	movie_mean, movie_median, movie_std_avg, movie_std_med  = netflix_getMovieStats(movieID)
-	return [((netflix_getCustStats(i)[0] + movie_mean)/2) for i in customerIDs]
+    """
+    returns simple averages
+    """
+    movie_mean, movie_median, movie_std_avg, movie_std_med  = netflix_getMovieStats(movieID)
+    return [((netflix_getCustStats(i)[0] + movie_mean)/2) for i in customerIDs]
 
 # -------------------
 # netflix_algorithm_2
 # -------------------
 
 def netflix_algorithm_2 (movieID, customerIDs) :
-	"""
-	returns simple medians
-	"""
-	movie_mean, movie_median, movie_std_avg, movie_std_med  = netflix_getMovieStats(movieID)
-	return [((netflix_getCustStats(i)[1] + movie_median)/2) for i in customerIDs]
+    """
+    returns simple medians
+    """
+    movie_mean, movie_median, movie_std_avg, movie_std_med  = netflix_getMovieStats(movieID)
+    return [((netflix_getCustStats(i)[1] + movie_median)/2) for i in customerIDs]
 
 # -------------------
 # netflix_algorithm_3
@@ -139,17 +139,17 @@ def netflix_algorithm_4 (movieID, customerIDs) :
     results = []
     value1 = None
     if movie_std_med <= movie_std_avg :
-    	value1 = movie_median
+        value1 = movie_median
     else :
-    	value1 = movie_mean
+        value1 = movie_mean
 
     for i in customerIDs:
         cust_mean, cust_median, cust_std_avg, cust_std_med = netflix_getCustStats(i)
         value2 = None
         if (cust_std_med <= cust_std_avg) :
-        	value2 = cust_median
+            value2 = cust_median
         else :
-        	value2 = cust_mean
+            value2 = cust_mean
         results.append((value1 + value2)/2)
 
     return results
@@ -168,20 +168,20 @@ def netflix_algorithm_5 (movieID, customerIDs) :
     movieStat = None
     movieStd = None
     if movie_median != movie_mean :
-    	movieStat = (movie_mean*movie_std_avg + movie_median*movie_std_med) / (movie_std_med + movie_std_avg)
-    	movieStd = (movie_std_med + movie_std_avg) / 2
+        movieStat = (movie_mean*movie_std_avg + movie_median*movie_std_med) / (movie_std_med + movie_std_avg)
+        movieStd = (movie_std_med + movie_std_avg) / 2
     else :
-    	movieStat = movie_mean
-    	movieStd = movie_std_avg
+        movieStat = movie_mean
+        movieStd = movie_std_avg
 
     for i in customerIDs:
         cust_mean, cust_median, cust_std_avg, cust_std_med = netflix_getCustStats(i)
         if cust_mean != cust_median :
-        	custStat = (cust_mean*cust_std_avg + cust_median*cust_std_med) / (cust_std_med + cust_std_avg)
-        	custStd = (cust_std_med + cust_std_avg) / 2
+            custStat = (cust_mean*cust_std_avg + cust_median*cust_std_med) / (cust_std_med + cust_std_avg)
+            custStd = (cust_std_med + cust_std_avg) / 2
         else :
-        	custStat = cust_mean
-        	custStd = cust_std_avg
+            custStat = cust_mean
+            custStd = cust_std_avg
         results.append((custStat*custStd + movieStat*movieStd) / (movieStd + custStd))
 
     return results
@@ -191,12 +191,11 @@ def netflix_algorithm_5 (movieID, customerIDs) :
 # -------------------
 
 def netflix_algorithm_6 (movieID, customerIDs) :
-	"""
-	universal movie average approach
-	"""
-	universalMovieMean = 3.604289964420661
-	movie_mean, movie_median, movie_std_avg, movie_std_med  = netflix_getMovieStats(movieID)
-	return [((netflix_getCustStats(i)[0] - movie_mean) + universalMovieMean) for i in customerIDs]
+    """
+    OffsetApproach
+    """
+    movie_mean, movie_median, movie_std_avg, movie_std_med = netflix_getMovieStats(movieID)
+    return [movie_mean + netflix_getCustStats(i)[0] - 3.604289964420661 for i in customerIDs]
 
 # ------------------
 # netflix_update_sds
@@ -216,7 +215,6 @@ def netflix_eval (movieID, customerIDs) :
     movieID is the movie id
     customerIDs is the list of customer ids
     return list of customer ratings
-
     """
     #predict_1 = netflix_algorithm_1(movieID, customerIDs)
     #predict_2 = netflix_algorithm_2(movieID, customerIDs)

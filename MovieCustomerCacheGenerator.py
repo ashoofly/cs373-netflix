@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # -------------------------------
-# MovieCacheGenerator.py
+# MovieCustomerCacheGenerator.py
 # Copyright (C) 2014
 # Omar Lalani
 # Angela Hsu
