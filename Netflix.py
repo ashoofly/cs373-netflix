@@ -24,11 +24,30 @@ CACHE_PATH = '../netflix-tests'
 MOVIE_STATS = os.path.join(CACHE_PATH, 'osl62-MovieCache.json')
 CUSTOMER_STATS = os.path.join(CACHE_PATH, 'osl62-CustomerCache.json')
 ANSWER_CACHE = os.path.join(CACHE_PATH, 'osl62-AnswerCache.json')
+CUSTOMER_BY_DECADE = os.path.join(CACHE_PATH, 'ahsu-cust_by_decade.json')
+MOVIES_BY_DECADE = os.path.join(CACHE_PATH, 'ahsu-ratings_by_decade.json')
 movie_stats_cache = {}
 customer_stats_cache = {}
 answer_cache = {}
+cust_ratings_by_decade = {}
+movies_by_decade = {}
 sds = 0.0
 counter = 0
+
+MOVIE_TITLES = '/u/downing/cs/netflix/movie_titles.txt'
+NUM_MOVIES = 17770
+movie_info = [None] * (NUM_MOVIES+1)
+universal_mean = 3.604289964420661
+
+def load_movie_info():
+    with open(MOVIE_TITLES, 'r', encoding='latin-1') as f:
+        while True:
+            line = f.readline()
+            if line == "":
+                return None
+            movie_ID, year, title = line.split(',')[:3]
+            movie_ID = int(movie_ID)
+            movie_info[movie_ID] = (year, title)
 
 # --------------
 # netflix_caches
@@ -47,6 +66,16 @@ def netflix_caches () :
     with open(ANSWER_CACHE, 'r') as f:
         global answer_cache
         answer_cache = json.load(f)
+    # Load Customer Ratings by decade
+    with open(CUSTOMER_BY_DECADE, 'r') as f:
+        global cust_ratings_by_decade
+        cust_ratings_by_decade = json.load(f)
+    # Load Movie Avgs by decade
+    with open(MOVIES_BY_DECADE, 'r') as f:
+        global movies_by_decade
+        movies_by_decade = json.load(f)
+    # Load Individual Movie Info
+    load_movie_info()
 
 # ------------
 # netflix_read
@@ -92,6 +121,20 @@ def netflix_getCustStats (customerID) :
 def netflix_getTrueRating (movieID, customerIDs) :
     return [answer_cache[movieID + "-" + i] for i in customerIDs]
     
+# -----------------------
+# netflix_getCustByDecade
+# -----------------------
+
+def netflix_getCustByDecade (customerID, decade) :
+    return cust_ratings_by_decade[customerID][str(decade)]
+
+# ----------------------------
+# netflix_getAvgRatingByDecade
+# ----------------------------
+
+def netflix_getAvgRatingByDecade (decade) :
+    return movies_by_decade[str(decade)]
+
 # -------------------
 # netflix_algorithm_1
 # -------------------
@@ -200,6 +243,28 @@ def netflix_algorithm_6 (movieID, customerIDs) :
     return [round(movie_mean + netflix_getCustStats(i)[0] - universal_mean, 1)
             for i in customerIDs]
 
+# -------------------
+# netflix_algorithm_7
+# -------------------
+
+def netflix_algorithm_7 (movieID, customerIDs) :
+    """
+    OffsetApproach by decade
+    """
+    movie_mean, movie_median, movie_std_avg = netflix_getMovieStats(movieID)
+    movie_year = movie_info[int(movieID)][0]
+    if movie_year != 'NULL':
+        movie_year = int(movie_year)
+        movie_decade = movie_year - (movie_year%10)
+        avg_rating_per_decade = netflix_getAvgRatingByDecade(movie_decade)
+        return [round(movie_mean + netflix_getCustByDecade(i, movie_decade) - 
+                avg_rating_per_decade, 1) for i in customerIDs]
+    else:
+        return [round(movie_mean + netflix_getCustStats(i)[0] - universal_mean, 1)
+                for i in customerIDs]
+
+
+
 # ------------------
 # netflix_update_sds
 # ------------------
@@ -224,10 +289,11 @@ def netflix_eval (movieID, customerIDs) :
     #predict_3 = netflix_algorithm_3(predict_1, predict_2)
     #predict_4 = netflix_algorithm_4(movieID, customerIDs)
     #predict_5 = netflix_algorithm_5(movieID, customerIDs)
-    predict_6 = netflix_algorithm_6(movieID, customerIDs)
+    #predict_6 = netflix_algorithm_6(movieID, customerIDs)
+    predict_7 = netflix_algorithm_7(movieID, customerIDs)
     actual = netflix_getTrueRating(movieID, customerIDs)
-    netflix_update_sds(predict_6, actual)
-    return predict_6
+    netflix_update_sds(predict_7, actual)
+    return predict_7
 
 # -------------
 # netflix_print
