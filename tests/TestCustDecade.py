@@ -5,7 +5,7 @@ import CustByDecadeCache as dcache
 import json
 
 '''Test dependencies:
-Sample files currently located in 'test_files' directory: 
+Sample files currently located in 'tests' directory: 
 mv_0000076.txt  1952
 mv_0004234.txt  1989
 mv_0000358.txt  1979
