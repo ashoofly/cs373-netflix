@@ -14,14 +14,15 @@
 import os
 import json
 import math
+import decimal
 
 # -------
 # globals
 # -------
 
 CACHE_PATH = '../netflix-tests'
-MOVIE_STATS = os.path.join(CACHE_PATH, 'MovieCache.json')
-CUSTOMER_STATS = os.path.join(CACHE_PATH, 'CustomerCache.json')
+MOVIE_STATS = os.path.join(CACHE_PATH, 'osl62-MovieCache.json')
+CUSTOMER_STATS = os.path.join(CACHE_PATH, 'osl62-CustomerCache.json')
 ANSWER_CACHE = os.path.join(CACHE_PATH, 'osl62-AnswerCache.json')
 movie_stats_cache = {}
 customer_stats_cache = {}
@@ -194,8 +195,10 @@ def netflix_algorithm_6 (movieID, customerIDs) :
     """
     OffsetApproach
     """
-    movie_mean, movie_median, movie_std_avg, movie_std_med = netflix_getMovieStats(movieID)
-    return [movie_mean + netflix_getCustStats(i)[0] - 3.604289964420661 for i in customerIDs]
+    universal_mean = 3.604289964420661
+    movie_mean, movie_median, movie_std_avg = netflix_getMovieStats(movieID)
+    return [round(movie_mean + netflix_getCustStats(i)[0] - universal_mean, 1)
+            for i in customerIDs]
 
 # ------------------
 # netflix_update_sds
