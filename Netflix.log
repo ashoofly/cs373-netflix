@@ -1,3 +1,21 @@
+commit 17c39988e763a016a2f71c51cf4bf666e7e6af09
+Author: Angela Hsu <ahsu@cs.utexas.edu>
+Date:   Thu Jun 26 18:05:05 2014 -0500
+
+    Last changes to code before getting log.
+
+commit ed90bc53502a30bbe4e5c6f5468276e70f97a1d2
+Author: Angela Hsu <ahsu@cs.utexas.edu>
+Date:   Wed Jun 25 23:07:18 2014 -0500
+
+    Adding TestNetflix.out
+
+commit 2eb2567067c857a706a7c3e14efa7626fea2a7f3
+Author: Angela Hsu <ahsu@cs.utexas.edu>
+Date:   Wed Jun 25 22:33:11 2014 -0500
+
+    Created git log closes #12
+
 commit 4247ca498b607ae92b5d26fbbbdba6e0dadb223f
 Author: Angela Hsu <ahsu@cs.utexas.edu>
 Date:   Wed Jun 25 22:29:32 2014 -0500
