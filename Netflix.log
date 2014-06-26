@@ -1,0 +1,178 @@
+commit 4247ca498b607ae92b5d26fbbbdba6e0dadb223f
+Author: Angela Hsu <ahsu@cs.utexas.edu>
+Date:   Wed Jun 25 22:29:32 2014 -0500
+
+    Created documentation closes #11
+
+commit 3cec8d72add1254bf18a1fe1aa30a3dd2b6ab2ce
+Author: Omar Lalani <omarlalani@gmail.com>
+Date:   Wed Jun 25 21:40:28 2014 -0500
+
+    All Unit Tests Passing (Average 3 per function) closes #6
+
+commit 1f070f352c22fb3a23c5b51a984c06f023a566d8
+Author: Angela Hsu <ahsu@cs.utexas.edu>
+Date:   Wed Jun 25 01:09:33 2014 -0500
+
+    Added 1000 acceptance tests closes #8; cleaned up repo a bit
+
+commit 0881d4781bdfd6f72d0695008af2ccd70d63374d
+Author: Angela Hsu <ahsu@cs.utexas.edu>
+Date:   Tue Jun 24 23:02:59 2014 -0500
+
+    Achieved an RMSE of 0.9378 closes #21
+
+commit 1a397b4a6208551f8d68bdaf8ba7ff192a8825c6
+Author: Angela Hsu <ahsu@cs.utexas.edu>
+Date:   Tue Jun 24 21:52:04 2014 -0500
+
+    Fixed so works with caches in netflix-tests directory, and rounded ratings to 1 decimal place
+
+commit 4684956959c14da46e551f7b1b79eee9a65928dd
+Author: Angela Hsu <ahsu@cs.utexas.edu>
+Date:   Mon Jun 23 01:25:39 2014 -0500
+
+    Created and tested cache for customer ratings by decade closes #4
+
+commit 2fa1d7c7567d35e0f972268d98dc045597d9cd53
+Author: Angela Hsu <ahsu@cs.utexas.edu>
+Date:   Mon Jun 23 01:23:09 2014 -0500
+
+    Run findmovieinfo.py for human-readable movie info closes #20
+
+commit 6ddda37fa475221d7bc936ccc601a837a7752ddf
+Author: Omar Lalani <omarlalani@gmail.com>
+Date:   Mon Jun 23 01:09:23 2014 -0500
+
+    Achieved RMSE=0.9710 closes #19
+
+commit 9adada0e28e215f832deaa074bc7fe412ccf5a91
+Author: Omar Lalani <omarlalani@gmail.com>
+Date:   Sun Jun 22 20:43:55 2014 -0500
+
+    Algorithm 3 Best so far
+
+commit e2be6c9cae8153303af76a50b0b3c898b5430bba
+Author: Angela Hsu <ahsu@cs.utexas.edu>
+Date:   Sun Jun 22 17:38:21 2014 -0500
+
+    in the middle of writing algorithm 4
+
+commit 765980c388193f44f7d292bf261596f8a68b3a1e
+Author: Omar Lalani <omarlalani@gmail.com>
+Date:   Sun Jun 22 16:56:35 2014 -0500
+
+    Updated Unit Tests
+
+commit ae7235d8290d36fff1a6cc89fcf50d08362a71f5
+Merge: 5115534 7e56833
+Author: Omar Lalani <omarlalani@gmail.com>
+Date:   Sun Jun 22 16:39:30 2014 -0500
+
+    Merge branch 'master' of https://github.com/ashoofly/cs373-netflix
+    
+    Conflicts:
+    	.coverage
+    	__pycache__/Netflix.cpython-32.pyc
+
+commit 7e568332764aa14cac5d5d43f064690d23bc3507
+Author: Angela Hsu <ahsu@cs.utexas.edu>
+Date:   Sun Jun 22 16:36:57 2014 -0500
+
+    Added a .gitignore file
+
+commit 5115534821765a4c101d2b9025a99bf125b41ece
+Author: Omar Lalani <omarlalani@gmail.com>
+Date:   Sun Jun 22 16:35:55 2014 -0500
+
+    Implements Simplest Solution passing all tests closes #7
+
+commit 4985259509c2518c7ba7a0460076994787c4986e
+Author: Omar Lalani <omarlalani@gmail.com>
+Date:   Sun Jun 22 16:33:03 2014 -0500
+
+    Unit Tests Made #6
+
+commit edd9214b2e0cab5a56b31c2fec6e368f05b4ba6b
+Author: Omar Lalani <omarlalani@gmail.com>
+Date:   Sun Jun 22 16:30:54 2014 -0500
+
+    Customer cache Created closes #3
+
+commit a8a5d02cd2ae2d255af596ee9095a7a0fddd696f
+Author: Omar Lalani <omarlalani@gmail.com>
+Date:   Sun Jun 22 16:27:57 2014 -0500
+
+    Movie Cache Created closes #2
+
+commit 9e66e860fa85afcf1e24f8d758fe0bb92abe1f9d
+Author: Omar Lalani <omarlalani@gmail.com>
+Date:   Sun Jun 22 12:22:29 2014 -0500
+
+    Creates Customer and Movie Cache closes #18
+
+commit 1e6cfa69d31926bcada15fcab46376f86528dc1c
+Author: Angela Hsu <ahsu@cs.utexas.edu>
+Date:   Sat Jun 21 17:56:59 2014 -0500
+
+    Implements and passes test RMSE calculation closes #17
+
+commit fc8ebb560ca238c0ba74491a34b5df5fb4ee7248
+Author: Angela Hsu <ahsu@cs.utexas.edu>
+Date:   Sat Jun 21 16:23:29 2014 -0500
+
+    Implement algorithm 1, closes #16
+
+commit 1413eed08754720c7ac6d99d7474982b009c8a9f
+Author: Omar Lalani <omarlalani@gmail.com>
+Date:   Sat Jun 21 15:54:56 2014 -0500
+
+    Cache Tests Pass closes #15
+
+commit 8541327f55a913dd54a6881545568433c4f3e2ee
+Author: Omar Lalani <omarlalani@gmail.com>
+Date:   Sat Jun 21 15:10:43 2014 -0500
+
+    AnswerCacheGenerator Tool Added closes #1
+
+commit d1acffdeee9c5d36facb1d2b51f375569f324514
+Author: Angela Hsu <ahsu@cs.utexas.edu>
+Date:   Fri Jun 20 17:07:27 2014 -0500
+
+    broken code. worked on loading cache
+
+commit ce2bd039fc182fc5d1081af6bad98bf4eee0d735
+Author: Omar Lalani <omarlalani@gmail.com>
+Date:   Fri Jun 20 15:43:30 2014 -0500
+
+    Created RunNetflix.py
+
+commit a987e8ef853d71bb201c72c396139e616eac2149
+Author: Omar Lalani <omarlalani@gmail.com>
+Date:   Thu Jun 19 22:08:28 2014 -0500
+
+    New Unit Tests Working
+
+commit 8a7ae0b2c1f7aa850c9fc7eccf4981f6b7be24eb
+Author: Angela Hsu <ahsu@cs.utexas.edu>
+Date:   Thu Jun 19 21:59:27 2014 -0500
+
+    Netflix.py ready for initial unit tests.
+
+commit bd86d490913990dfdb245845e5a8d1c3b23abddc
+Author: Omar Lalani <omarlalani@gmail.com>
+Date:   Thu Jun 19 20:43:30 2014 -0500
+
+    Skeleton Code closes #14
+
+commit ed6ff2d4d90cf4dce42a45bef74f1d5ed7a17376
+Author: Angela Hsu <ahsu@cs.utexas.edu>
+Date:   Wed Jun 18 21:59:25 2014 -0500
+
+    Add given sample in and out files.
+
+commit 3701896dbdc2455f908c142f7f3305dcd61355a1
+Author: ashoofly <ashoofly@users.noreply.github.com>
+Date:   Wed Jun 18 21:56:30 2014 -0500
+
+    Initial commit
