@@ -14,18 +14,19 @@
 import os
 import json
 import math
-import decimal
 
 # --------
 # globals
 # --------
 
 CACHE_PATH = '/u/mukund/netflix-tests'
+#CACHE_PATH = '../netflix-tests'
 MOVIE_STATS = os.path.join(CACHE_PATH, 'osl62-MovieCache.json')
 CUSTOMER_STATS = os.path.join(CACHE_PATH, 'osl62-CustomerCache.json')
 ANSWER_CACHE = os.path.join(CACHE_PATH, 'osl62-AnswerCache.json')
 CUSTOMER_BY_DECADE = os.path.join(CACHE_PATH, 'ahsu-cust_by_decade.json')
 MOVIES_BY_DECADE = os.path.join(CACHE_PATH, 'ahsu-ratings_by_decade.json')
+MOVIE_TITLES = os.path.join(CACHE_PATH, 'ahsu-downing-movie_titles.txt')
 
 movie_stats_cache = {}
 customer_stats_cache = {}
@@ -35,7 +36,6 @@ movies_by_decade = {}
 sds = 0.0
 counter = 0
 
-MOVIE_TITLES = '/u/downing/cs/netflix/movie_titles.txt'
 NUM_MOVIES = 17770
 movie_info = [None] * (NUM_MOVIES+1)
 universal_mean = 3.604289964420661
@@ -115,10 +115,8 @@ def netflix_read (r, movieID) :
 def netflix_getMovieStats (movieID) :
     """Look up statistics for specific movie in movie_stats_cache.
     
-    Arguments:
-        movieID - string
-    Return:
-        movie_mean, movie_median, movie_std - tuple 
+    Arguments: movieID (string)
+    Return: movie_mean, movie_median, movie_std (tuple) 
 
     """
     return movie_stats_cache[movieID]
@@ -130,10 +128,8 @@ def netflix_getMovieStats (movieID) :
 def netflix_getCustStats (customerID) :
     """Look up statistics for specific customer in customer_stats_cache.
 
-    Arguments:
-        customerID - string
-    Return:
-        cust_mean, cust_median, cust_std - tuple
+    Arguments: customerID (string)
+    Return: cust_mean, cust_median, cust_std (tuple)
 
     """
     return customer_stats_cache[customerID]
@@ -145,11 +141,8 @@ def netflix_getCustStats (customerID) :
 def netflix_getTrueRating (movieID, customerIDs) :
     """Look up true customer rating for all 'customerIDs' for 'movieID'.
     
-    Arguments:
-        movieID - string
-        customerIDs - list of strings  
-    Return:
-        list of true ratings in order of customerID
+    Arguments: movieID (string); customerIDs (list of strings)  
+    Return: list of true ratings in order of customerID
          
     """
     return [answer_cache[movieID + "-" + i] for i in customerIDs]
@@ -161,12 +154,8 @@ def netflix_getTrueRating (movieID, customerIDs) :
 def netflix_getCustByDecade (customerID, decade) :
     """Look up average customer rating per decade for a specific customerID.
 
-    Arguments:
-        customerID - string
-        decade - int
-
-    Return:
-        float of avg rating
+    Arguments: customerID (string); decade (int)
+    Return: float of avg rating
         
     """ 
     return cust_ratings_by_decade[customerID][str(decade)]
@@ -178,11 +167,8 @@ def netflix_getCustByDecade (customerID, decade) :
 def netflix_getAvgRatingByDecade (decade) :
     """Look up average movie rating by decade.
 
-    Arguments:
-        decade - int
-
-    Return:
-        float of avg movie rating
+    Arguments: decade (int)
+    Return: float of avg movie rating
 
     """
     return movies_by_decade[str(decade)]
@@ -195,11 +181,8 @@ def netflix_algorithm_7 (movieID, customerIDs) :
     """Predict customer ratings of particular movie using the offset approach
        by decade if movie year available.
 
-    Arguments:
-        movieID - string
-        customerIDs - list of strings
-    Return:
-        list of predicted customer ratings
+    Arguments: movieID (string); customerIDs (list of strings)
+    Return: list of predicted customer ratings
 
     """
     movie_mean, movie_median, movie_std = netflix_getMovieStats(movieID)
@@ -224,8 +207,7 @@ def netflix_update_sds (predict, actual) :
     Arguments:
         predict - our predicted rating (float)
         actual - true rating from answer cache (float) 
-    Return:
-        Nothing
+    Return: Nothing
 
     """
     global sds, counter
@@ -239,11 +221,8 @@ def netflix_update_sds (predict, actual) :
 def netflix_eval (movieID, customerIDs) :
     """Run prediction algorithm, get true rating, update running sum of squared differences.
 
-    Arguments:
-        movieID - string
-        customerIDs - list of strings
-    Return:
-        predicted rating - float
+    Arguments: movieID (string); customerIDs (list of strings)
+    Return: predicted rating - float
     
     """
     predict_7 = netflix_algorithm_7(movieID, customerIDs)
@@ -263,8 +242,7 @@ def netflix_print (w, movie_ID, customer_ratings) :
         movie_ID - string
         customer_ratings - string
 
-    Return:
-        Nothing    
+    Return: Nothing    
 
     """
     w.write(movie_ID + ":\n")
@@ -278,11 +256,8 @@ def netflix_print (w, movie_ID, customer_ratings) :
 def netflix_print_RMSE(w):
     """Output RMSE.
 
-    Arguments:
-        w - writer
-
-    Return:
-       Nothing 
+    Arguments: w (StringIO)
+    Return: Nothing 
 
     """
     w.write("RMSE: " + str( format( math.sqrt(sds / counter), '.4f' ) + "\n") )
@@ -294,12 +269,8 @@ def netflix_print_RMSE(w):
 def netflix_solve (r, w) :
     """Main function to run solver.
 
-    Arguments:
-        r - reader
-        w - writer
-
-    Return:
-        Nothing
+    Arguments: r (reader); w (writer)
+    Return: Nothing
 
     """
     movie_ID = None

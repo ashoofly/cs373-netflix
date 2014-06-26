@@ -22,11 +22,10 @@
 <font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
     
 <tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="decimal.html">decimal</a><br>
-</td><td width="25%" valign=top><a href="json.html">json</a><br>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="json.html">json</a><br>
 </td><td width="25%" valign=top><a href="math.html">math</a><br>
 </td><td width="25%" valign=top><a href="os.html">os</a><br>
-</td></tr></table></td></tr></table><p>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#eeaa77">
 <td colspan=3 valign=bottom>&nbsp;<br>
@@ -36,53 +35,33 @@
 <td width="100%"><dl><dt><a name="-netflix_algorithm_7"><strong>netflix_algorithm_7</strong></a>(movieID, customerIDs)</dt><dd><tt>Predict&nbsp;customer&nbsp;ratings&nbsp;of&nbsp;particular&nbsp;movie&nbsp;using&nbsp;the&nbsp;offset&nbsp;approach<br>
 &nbsp;&nbsp;&nbsp;by&nbsp;decade&nbsp;if&nbsp;movie&nbsp;year&nbsp;available.<br>
 &nbsp;<br>
-Arguments:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;movieID&nbsp;-&nbsp;string<br>
-&nbsp;&nbsp;&nbsp;&nbsp;customerIDs&nbsp;-&nbsp;list&nbsp;of&nbsp;strings<br>
-Return:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;list&nbsp;of&nbsp;predicted&nbsp;customer&nbsp;ratings</tt></dd></dl>
+Arguments:&nbsp;movieID&nbsp;(string);&nbsp;customerIDs&nbsp;(list&nbsp;of&nbsp;strings)<br>
+Return:&nbsp;list&nbsp;of&nbsp;predicted&nbsp;customer&nbsp;ratings</tt></dd></dl>
  <dl><dt><a name="-netflix_caches"><strong>netflix_caches</strong></a>()</dt><dd><tt>Load&nbsp;all&nbsp;caches.&nbsp;Return&nbsp;nothing.</tt></dd></dl>
  <dl><dt><a name="-netflix_eval"><strong>netflix_eval</strong></a>(movieID, customerIDs)</dt><dd><tt>Run&nbsp;prediction&nbsp;algorithm,&nbsp;get&nbsp;true&nbsp;rating,&nbsp;update&nbsp;running&nbsp;sum&nbsp;of&nbsp;squared&nbsp;differences.<br>
 &nbsp;<br>
-Arguments:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;movieID&nbsp;-&nbsp;string<br>
-&nbsp;&nbsp;&nbsp;&nbsp;customerIDs&nbsp;-&nbsp;list&nbsp;of&nbsp;strings<br>
-Return:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;predicted&nbsp;rating&nbsp;-&nbsp;float</tt></dd></dl>
+Arguments:&nbsp;movieID&nbsp;(string);&nbsp;customerIDs&nbsp;(list&nbsp;of&nbsp;strings)<br>
+Return:&nbsp;predicted&nbsp;rating&nbsp;-&nbsp;float</tt></dd></dl>
  <dl><dt><a name="-netflix_getAvgRatingByDecade"><strong>netflix_getAvgRatingByDecade</strong></a>(decade)</dt><dd><tt>Look&nbsp;up&nbsp;average&nbsp;movie&nbsp;rating&nbsp;by&nbsp;decade.<br>
 &nbsp;<br>
-Arguments:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;decade&nbsp;-&nbsp;int<br>
-&nbsp;<br>
-Return:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;of&nbsp;avg&nbsp;movie&nbsp;rating</tt></dd></dl>
+Arguments:&nbsp;decade&nbsp;(int)<br>
+Return:&nbsp;float&nbsp;of&nbsp;avg&nbsp;movie&nbsp;rating</tt></dd></dl>
  <dl><dt><a name="-netflix_getCustByDecade"><strong>netflix_getCustByDecade</strong></a>(customerID, decade)</dt><dd><tt>Look&nbsp;up&nbsp;average&nbsp;customer&nbsp;rating&nbsp;per&nbsp;decade&nbsp;for&nbsp;a&nbsp;specific&nbsp;customerID.<br>
 &nbsp;<br>
-Arguments:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;customerID&nbsp;-&nbsp;string<br>
-&nbsp;&nbsp;&nbsp;&nbsp;decade&nbsp;-&nbsp;int<br>
-&nbsp;<br>
-Return:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;of&nbsp;avg&nbsp;rating</tt></dd></dl>
+Arguments:&nbsp;customerID&nbsp;(string);&nbsp;decade&nbsp;(int)<br>
+Return:&nbsp;float&nbsp;of&nbsp;avg&nbsp;rating</tt></dd></dl>
  <dl><dt><a name="-netflix_getCustStats"><strong>netflix_getCustStats</strong></a>(customerID)</dt><dd><tt>Look&nbsp;up&nbsp;statistics&nbsp;for&nbsp;specific&nbsp;customer&nbsp;in&nbsp;customer_stats_cache.<br>
 &nbsp;<br>
-Arguments:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;customerID&nbsp;-&nbsp;string<br>
-Return:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;cust_mean,&nbsp;cust_median,&nbsp;cust_std&nbsp;-&nbsp;tuple</tt></dd></dl>
+Arguments:&nbsp;customerID&nbsp;(string)<br>
+Return:&nbsp;cust_mean,&nbsp;cust_median,&nbsp;cust_std&nbsp;(tuple)</tt></dd></dl>
  <dl><dt><a name="-netflix_getMovieStats"><strong>netflix_getMovieStats</strong></a>(movieID)</dt><dd><tt>Look&nbsp;up&nbsp;statistics&nbsp;for&nbsp;specific&nbsp;movie&nbsp;in&nbsp;movie_stats_cache.<br>
 &nbsp;<br>
-Arguments:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;movieID&nbsp;-&nbsp;string<br>
-Return:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;movie_mean,&nbsp;movie_median,&nbsp;movie_std&nbsp;-&nbsp;tuple</tt></dd></dl>
+Arguments:&nbsp;movieID&nbsp;(string)<br>
+Return:&nbsp;movie_mean,&nbsp;movie_median,&nbsp;movie_std&nbsp;(tuple)</tt></dd></dl>
  <dl><dt><a name="-netflix_getTrueRating"><strong>netflix_getTrueRating</strong></a>(movieID, customerIDs)</dt><dd><tt>Look&nbsp;up&nbsp;true&nbsp;customer&nbsp;rating&nbsp;for&nbsp;all&nbsp;'customerIDs'&nbsp;for&nbsp;'movieID'.<br>
 &nbsp;<br>
-Arguments:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;movieID&nbsp;-&nbsp;string<br>
-&nbsp;&nbsp;&nbsp;&nbsp;customerIDs&nbsp;-&nbsp;list&nbsp;of&nbsp;strings&nbsp;&nbsp;<br>
-Return:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;list&nbsp;of&nbsp;true&nbsp;ratings&nbsp;in&nbsp;order&nbsp;of&nbsp;customerID</tt></dd></dl>
+Arguments:&nbsp;movieID&nbsp;(string);&nbsp;customerIDs&nbsp;(list&nbsp;of&nbsp;strings)&nbsp;&nbsp;<br>
+Return:&nbsp;list&nbsp;of&nbsp;true&nbsp;ratings&nbsp;in&nbsp;order&nbsp;of&nbsp;customerID</tt></dd></dl>
  <dl><dt><a name="-netflix_print"><strong>netflix_print</strong></a>(w, movie_ID, customer_ratings)</dt><dd><tt>Output&nbsp;movieID&nbsp;and&nbsp;one&nbsp;customer&nbsp;rating&nbsp;on&nbsp;each&nbsp;line.<br>
 &nbsp;<br>
 Arguments:<br>
@@ -90,15 +69,11 @@ Arguments:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;movie_ID&nbsp;-&nbsp;string<br>
 &nbsp;&nbsp;&nbsp;&nbsp;customer_ratings&nbsp;-&nbsp;string<br>
 &nbsp;<br>
-Return:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Nothing</tt></dd></dl>
+Return:&nbsp;Nothing</tt></dd></dl>
  <dl><dt><a name="-netflix_print_RMSE"><strong>netflix_print_RMSE</strong></a>(w)</dt><dd><tt>Output&nbsp;RMSE.<br>
 &nbsp;<br>
-Arguments:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;w&nbsp;-&nbsp;writer<br>
-&nbsp;<br>
-Return:<br>
-&nbsp;&nbsp;&nbsp;Nothing</tt></dd></dl>
+Arguments:&nbsp;w&nbsp;(StringIO)<br>
+Return:&nbsp;Nothing</tt></dd></dl>
  <dl><dt><a name="-netflix_read"><strong>netflix_read</strong></a>(r, movieID)</dt><dd><tt>Read&nbsp;one&nbsp;block&nbsp;(one&nbsp;movie,&nbsp;list&nbsp;of&nbsp;customers)&nbsp;from&nbsp;probe.txt<br>
 &nbsp;<br>
 Arguments:<br>
@@ -111,19 +86,14 @@ Return:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;next_movie&nbsp;-&nbsp;string,&nbsp;or&nbsp;None</tt></dd></dl>
  <dl><dt><a name="-netflix_solve"><strong>netflix_solve</strong></a>(r, w)</dt><dd><tt>Main&nbsp;function&nbsp;to&nbsp;run&nbsp;solver.<br>
 &nbsp;<br>
-Arguments:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;r&nbsp;-&nbsp;reader<br>
-&nbsp;&nbsp;&nbsp;&nbsp;w&nbsp;-&nbsp;writer<br>
-&nbsp;<br>
-Return:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Nothing</tt></dd></dl>
+Arguments:&nbsp;r&nbsp;(reader);&nbsp;w&nbsp;(writer)<br>
+Return:&nbsp;Nothing</tt></dd></dl>
  <dl><dt><a name="-netflix_update_sds"><strong>netflix_update_sds</strong></a>(predict, actual)</dt><dd><tt>Update&nbsp;running&nbsp;sum&nbsp;of&nbsp;squared&nbsp;differences&nbsp;between&nbsp;predicted&nbsp;and&nbsp;actual&nbsp;rating.<br>
 &nbsp;<br>
 Arguments:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;predict&nbsp;-&nbsp;our&nbsp;predicted&nbsp;rating&nbsp;(float)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;actual&nbsp;-&nbsp;true&nbsp;rating&nbsp;from&nbsp;answer&nbsp;cache&nbsp;(float)&nbsp;<br>
-Return:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Nothing</tt></dd></dl>
+Return:&nbsp;Nothing</tt></dd></dl>
 </td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#55aa55">
@@ -137,7 +107,7 @@ Return:<br>
 <strong>CUSTOMER_STATS</strong> = '/u/mukund/netflix-tests/osl62-CustomerCache.json'<br>
 <strong>MOVIES_BY_DECADE</strong> = '/u/mukund/netflix-tests/ahsu-ratings_by_decade.json'<br>
 <strong>MOVIE_STATS</strong> = '/u/mukund/netflix-tests/osl62-MovieCache.json'<br>
-<strong>MOVIE_TITLES</strong> = '/u/downing/cs/netflix/movie_titles.txt'<br>
+<strong>MOVIE_TITLES</strong> = '/u/mukund/netflix-tests/ahsu-downing-movie_titles.txt'<br>
 <strong>NUM_MOVIES</strong> = 17770<br>
 <strong>answer_cache</strong> = {}<br>
 <strong>counter</strong> = 0<br>
